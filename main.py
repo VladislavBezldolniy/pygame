@@ -1,91 +1,20 @@
 import pygame
-
+from player import *
+from walls import *
 
 # ИГРОК
-PLAYER_WIDTH = 20
-PLAYER_HEIGHT = 20
+
 PLAYER_SPEED = 6
 
+# Сolor
 
-# Colors
+BLACK = (0, 15, 0)
 
-WHITE = (255, 255, 255)
-RED = (140, 7, 0)
-BACK = (61, 56, 59)
 
 # Screen
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 FPS = 60
-
-
-class Player(pygame.sprite.Sprite):
-
-    # Функция конструктор
-    def __init__(self, x, y):
-        # Вызов метовдов класса родителя
-        pygame.sprite.Sprite.__init__(self)
-
-        # Создаем спрайт
-        self.image = pygame.Surface([PLAYER_WIDTH, PLAYER_HEIGHT])
-        self.image.fill(WHITE)
-
-        # указываем на x, y
-        self.rect = self.image.get_rect()
-        self.rect.y = y
-        self.rect.x = x
-
-        self.change_x = 0
-        self.change_y = 0
-        self.walls = None
-
-    def changespeed(self, x, y):
-        # Приводим в движение
-        self.change_x += x
-        self.change_y += y
-
-    def update(self):
-        # влево/вправо
-        self.rect.x += self.change_x
-
-        # Врезание в стену <-->
-        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
-        for block in block_hit_list:
-            # врезаемся при движении вправо
-            if self.change_x > 0:
-                self.rect.right = block.rect.left
-            else:
-                # -//- влево
-                self.rect.left = block.rect.right
-
-        # Вверх/вниз
-        self.rect.y += self.change_y
-
-        # Проверка столкновений
-        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
-        for block in block_hit_list:
-
-            # Обновление позиции
-            if self.change_y > 0:
-                self.rect.bottom = block.rect.top
-            else:
-                self.rect.top = block.rect.bottom
-
-
-class Wall(pygame.sprite.Sprite):
-
-    def __init__(self, x, y, width, height):
-
-        # вызов метода родителя
-        pygame.sprite.Sprite.__init__(self)
-
-        # выставляем высоту, ширину и цвет
-        self.image = pygame.Surface([width, height])
-        self.image.fill(RED)
-
-        self.rect = self.image.get_rect()
-        self.rect.y = y
-        self.rect.x = x
 
 
 # инициализируем pygames
@@ -161,7 +90,7 @@ while not done:
 
     all_sprite_list.update()
 
-    screen.fill(BACK)
+    screen.fill(BLACK)
 
     all_sprite_list.draw(screen)  # отрисовуем все спрайты из списка методм draw
 
